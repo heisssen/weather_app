@@ -8,25 +8,66 @@
     <link href="/css/style.css" rel="stylesheet">
 </head>
 <body>
+
+    <!-- Include the Navbar -->
+    <%- include('partials/navbar') %>
+
     <div class="container mt-5">
         <h1 class="text-center">Detailed Weather for <%= city %> on <%= selectedDayWeather.date %></h1>
 
+        <!-- Day Summary Card -->
         <div class="card mt-4 shadow-sm">
             <div class="card-body">
                 <h5 class="card-title">Day Summary</h5>
-                <div class="d-flex align-items-center">
-                    <img src="<%= selectedDayWeather.day.condition.icon %>" alt="weather icon" class="weather-icon me-3" />
-                    <div>
-                        <p>Max Temp: <strong><%= selectedDayWeather.day.maxtemp_c %> °C</strong></p>
-                        <p>Min Temp: <strong><%= selectedDayWeather.day.mintemp_c %> °C</strong></p>
-                        <p>Condition: <%= selectedDayWeather.day.condition.text %></p>
-                        <!-- Add average pressure to Day Summary -->
-                        <p>Average Pressure: <strong><%= avgPressure.toFixed(2) %> hPa</strong></p>
-                    </div>
+                <div class="row">
+                    <% if (preferences.showTemperature) { %>
+                        <div class="col-md-4 mb-3">
+                            <p><strong>Max Temp:</strong> <%= selectedDayWeather.day.maxtemp_c %> °C</p>
+                            <p><strong>Min Temp:</strong> <%= selectedDayWeather.day.mintemp_c %> °C</p>
+                        </div>
+                    <% } %>
+                    <% if (preferences.showFeelsLike) { %>
+                        <div class="col-md-4 mb-3">
+                            <p><strong>Feels Like:</strong> <%= selectedDayWeather.day.feelslike_c %> °C</p>
+                        </div>
+                    <% } %>
+                    <% if (preferences.showPressure) { %>
+                        <div class="col-md-4 mb-3">
+                            <p><strong>Average Pressure:</strong> <%= avgPressure.toFixed(2) %> hPa</p>
+                        </div>
+                    <% } %>
                 </div>
-                <hr>
+            </div>
+        </div>
 
-                <h5 class="card-title">Hourly Forecast with Pressure</h5>
+        <!-- Air Quality Card -->
+        <% if (preferences.showAirQuality) { %>
+        <div class="card mt-4 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Air Quality</h5>
+                <p><strong>Air Quality Index (PM2.5):</strong> <%= airQuality %></p>
+            </div>
+        </div>
+        <% } %>
+
+        <!-- Alerts Section -->
+        <% if (preferences.showAlerts && weatherAlerts.length > 0) { %>
+        <div class="card mt-4 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Weather Alerts</h5>
+                <ul>
+                    <% weatherAlerts.forEach(alert => { %>
+                        <li><%= alert.headline %>: <%= alert.desc %></li>
+                    <% }) %>
+                </ul>
+            </div>
+        </div>
+        <% } %>
+
+        <!-- Hourly Forecast Card -->
+        <div class="card mt-4 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Hourly Forecast</h5>
                 <div class="accordion" id="hourlyForecastAccordion">
                     <% hourlyWeather.forEach((hour, index) => { %>
                     <div class="accordion-item">
@@ -37,11 +78,26 @@
                         </h2>
                         <div id="collapse<%= index %>" class="accordion-collapse collapse" aria-labelledby="heading<%= index %>" data-bs-parent="#hourlyForecastAccordion">
                             <div class="accordion-body">
-                                <img src="<%= hour.condition.icon %>" alt="hourly weather icon" class="mb-2" />
-                                <p>Condition: <%= hour.condition.text %></p>
-                                <p>Pressure: <strong><%= pressureData[index] ? pressureData[index].pressure : 'N/A' %> hPa</strong></p>
-                                <p>Wind: <%= hour.wind_kph %> kph</p>
-                                <p>Humidity: <%= hour.humidity %> %</p>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p><strong>Temperature:</strong> <%= hour.temp_c %> °C</p>
+                                    </div>
+                                    <% if (preferences.showPressure) { %>
+                                        <div class="col-md-4">
+                                            <p><strong>Pressure:</strong> <%= pressureData[index] ? pressureData[index].pressure : 'N/A' %> hPa</p>
+                                        </div>
+                                    <% } %>
+                                    <% if (preferences.showWindSpeed) { %>
+                                        <div class="col-md-4">
+                                            <p><strong>Wind Speed:</strong> <%= hour.wind_kph %> kph</p>
+                                        </div>
+                                    <% } %>
+                                    <% if (preferences.showHumidity) { %>
+                                        <div class="col-md-4">
+                                            <p><strong>Humidity:</strong> <%= hour.humidity %> %</p>
+                                        </div>
+                                    <% } %>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -54,3 +110,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+``
