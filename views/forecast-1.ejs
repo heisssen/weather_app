@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1-Day Weather Forecast</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Weather in <%= weatherData.city %>, <%= weatherData.country %></h1>
+        <p><strong>Current Temperature:</strong> <%= weatherData.current.temp %>°C</p>
+        <p><strong>Weather:</strong> <%= weatherData.current.description %></p>
+        <p><strong>Humidity:</strong> <%= weatherData.current.humidity %>%</p>
+        <p><strong>Wind Speed:</strong> <%= weatherData.current.windSpeed %> m/s</p>
+
+        <h2>1-Day Forecast</h2>
+        <% weatherData.forecast.forEach(day => { %>
+            <p><strong>Date:</strong> <%= new Date(day.dt * 1000).toDateString() %></p>
+            <p><strong>Day Temperature:</strong> <%= day.temp.day %>°C</p>
+            <p><strong>Night Temperature:</strong> <%= day.temp.night %>°C</p>
+            <p><strong>Weather:</strong> <%= day.weather[0].description %></p>
+            <hr>
+        <% }) %>
+    </div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+body {
+    background-color: #f8f9fa;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #343a40;
+}
+
+.weather-result {
+    background-color: #ffffff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.weather-result h4 {
+    font-weight: 600;
+}
+
+.container {
+    padding-top: 50px;
+}
+
+button {
+    font-size: 1.2rem;
+}
+
+.alert {
+    text-align: center;
+    font-size: 1.1rem;
+}
