@@ -1,0 +1,25 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+}
+
+h1, h5 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.weather-icon {
+    width: 50px;
+    height: 50px;
+}
+
+.forecast-card {
+    transition: transform 0.2s ease;
+}
+.forecast-card:hover {
+    transform: translateY(-5px);
+}
+
+.accordion-button {
+    font-size: 1rem;
+    color: #007bff;
+}
