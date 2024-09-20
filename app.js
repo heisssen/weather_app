@@ -5,8 +5,9 @@ const path = require('path');
 const app = express();
 const weatherApiKey = process.env.WEATHER_API_KEY || 'd359ea899420410d878144608242009';
 
+// Set the views directory explicitly using path.join
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Helper function to fetch forecast data for a city from WeatherAPI
 const fetchForecastData = async (city, days = 3) => {
